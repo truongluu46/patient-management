@@ -36,6 +36,8 @@ public class PatientService {
                     " already exists " + patientRequestDTO.getEmail());
         }
         Patient patient = patientRepository.save(PatientMapper.toEntity(patientRequestDTO));
+
+        billingServiceGrpcClient.createBillingAccount(patient.getId().toString(), patient.getName(), patient.getEmail());
         return PatientMapper.toDTO(patient);
     }
 
